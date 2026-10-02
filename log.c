@@ -25,7 +25,7 @@ void log_write(log_level level, const char *format, ...) {
 
         if (g_log_max_lines > 0 && g_log_cur_lines >= g_log_max_lines) {
                 fclose(g_log_fp);
-                g_log_fp = fopen("logfile", "w"); /* 覆盖重写 */
+                g_log_fp = fopen("logfile", "w"); /* 新文件 */
                 g_log_cur_lines = 0;
         }
 
@@ -38,7 +38,7 @@ void log_write(log_level level, const char *format, ...) {
 
         va_list args;
         va_start(args, format);
-        vfprintf(g_log_fp, format, args);
+        vfprintf(g_log_fp, format, args); /* 直接写文件，长度不受控 */
         va_end(args);
 
         fprintf(g_log_fp, "\n");
